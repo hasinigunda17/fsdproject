@@ -1,35 +1,16 @@
-const express = require("express");
-const multer = require("multer");
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import generateRoute from "./routes/generate.js";
+
+dotenv.config();
 
 const app = express();
-const upload = multer();
+app.use(cors());
+app.use(express.json());
 
-app.use(express.static("public"));
+app.use("/api", generateRoute);
 
-// STUDENT REGISTRATION
-app.post("/student", upload.none(), (req, res) => {
-    console.log("Student Registered:", req.body);
-    res.sendStatus(200);
+app.listen(5000, () => {
+  console.log("Server running on port 5000");
 });
-
-// VOLUNTEER REGISTRATION
-app.post("/volunteer", upload.none(), (req, res) => {
-    console.log("Volunteer Added:", req.body);
-    res.sendStatus(200);
-});
-
-// EVENT CREATION
-app.post("/event", upload.none(), (req, res) => {
-    console.log("Event Created:", req.body);
-    res.sendStatus(200);
-});
-
-// QR CHECKIN
-app.post("/checkin", upload.none(), (req, res) => {
-    console.log("QR Check-in:", req.body);
-    res.sendStatus(200);
-});
-
-app.listen(3000, () =>
-    console.log("Server running at http://localhost:3000")
-);
